@@ -1,7 +1,6 @@
 const server = require('server')
-const { post } = server.router
+const { post, error } = server.router
 const { json } = server.reply
-
 const cachimo = require('cachimo')
 
 server({ security: { csrf: false } }, [
@@ -13,6 +12,9 @@ server({ security: { csrf: false } }, [
     }
 
     return json({ 'offset': cachimo.get(key) })
+  }),
+  error(ctx => {
+    return json({ 'error': 'Invalid request' })
   })
 ])
 
