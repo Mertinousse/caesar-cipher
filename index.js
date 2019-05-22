@@ -4,8 +4,18 @@ const { json } = server.reply
 
 const cachimo = require('cachimo')
 
-cachimo.put('key', 'value')
-
 server({ security: { csrf: false } }, [
-  post('/', ctx => json(ctx.data))
+  post('/', ctx => {
+    const key = ctx.data.key
+
+    if (!cachimo.has(key)) {
+      cachimo.put(key, getRandomInt(25))
+    }
+
+    return json({ 'offset': cachimo.get(key) })
+  })
 ])
+
+function getRandomInt(max) {
+  return Math.floor(Math.random() * Math.floor(max)) + 1;
+}
