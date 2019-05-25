@@ -2,7 +2,7 @@
   const application = Stimulus.Application.start()
 
   application.register('cipher', class extends Stimulus.Controller {
-    static targets = [ 'key', 'text' ]
+    static targets = [ 'key', 'text', 'step1', 'step2' ]
 
     get alphabet() { return 'abcdefghijklmnopqrstuvwxyz'.split('') }
     get key() { return this.keyTarget.value }
@@ -18,6 +18,8 @@
         }
       }).then(data => {
         this.data.set('offset', data.data.offset)
+        this.step1Target.classList.add('d-none')
+        this.step2Target.classList.remove('d-none')
       }).catch(err => {
         console.log(err)
       })
