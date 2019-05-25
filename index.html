@@ -7,9 +7,16 @@
   <script src="index.js"></script>
 <head>
 <body>
-  <div data-controller="offset" data-offset-value="">
-    <input data-target="offset.key" type="text">
-    <button data-action="offset#get">Get offset</button>
+  <div data-controller="cipher" data-cipher-offset="">
+    <div>
+      <input data-target="cipher.key" type="text">
+      <button data-action="cipher#offset">Get offset</button>
+    </div>
+    <div>
+      <input data-target="cipher.text" type="text">
+      <button data-action="cipher#encode">Encode</button>
+      <button data-action="cipher#decode">Decode</button>
+    </div>
   </div>
 </body>
 </html>
