@@ -3,8 +3,13 @@
 <head>
   <meta charset="utf-8">
   <script src="https://unpkg.com/stimulus/dist/stimulus.umd.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="index.js"></script>
 <head>
 <body>
-  
+  <div data-controller="offset" data-offset-value="">
+    <input data-target="offset.key" type="text">
+    <button data-action="offset#get">Get offset</button>
+  </div>
 </body>
 </html>

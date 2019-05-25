@@ -1,23 +1,26 @@
-const server = require('server')
-const { post, error } = server.router
-const { json } = server.reply
-const cachimo = require('cachimo')
+(() => {
+  const application = Stimulus.Application.start()
 
-server({ security: { csrf: false } }, [
-  post('/', ctx => {
-    const key = ctx.data.key
+  application.register('offset', class extends Stimulus.Controller {
+    static targets = [ 'key' ]
 
-    if (!cachimo.has(key)) {
-      cachimo.put(key, getRandomInt(25))
+    get() {
+      if (!this.key) { return }
+      axios({
+        method: 'post',
+        url: 'http://localhost:3000/',
+        data: {
+          key: this.key
+        }
+      }).then(data => {
+        this.data.set('value', data.data.offset)
+      }).catch(err => {
+        console.log(err)
+      })
     }
 
-    return json({ 'offset': cachimo.get(key) })
-  }),
-  error(ctx => {
-    return json({ 'error': 'Invalid request' })
+    get key() {
+      return this.keyTarget.value
+    }
   })
-])
-
-function getRandomInt(max) {
-  return Math.floor(Math.random() * Math.floor(max)) + 1;
-}
+})()
